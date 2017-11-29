@@ -24,4 +24,3 @@ namespace Pagr {
         protected System.Web.UI.WebControls.Label username;
     }
 }
- 
