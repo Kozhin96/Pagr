@@ -24,7 +24,7 @@ namespace Pagr
 
         protected void loadFriends()
         {
-            // compare the user name to user name or email
+            //ccompare the user name to user name or email
             string select = @"SELECT Accounts.username,  Accounts.AccountID
                                 FROM Accounts JOIN Friends 
                                 ON Accounts.AccountID = Friends.user1 
@@ -48,10 +48,10 @@ namespace Pagr
             connection.Close();
             if (dt.HasData())
             {
-            repFriendsList.DataSource = dt;
-            repFriendsList.DataBind();
-            cmd.Dispose();
-			}
+                repFriendsList.DataSource = dt;
+                repFriendsList.DataBind();
+                cmd.Dispose();
+            }
         }
     }
 }

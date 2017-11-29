@@ -6,11 +6,12 @@
     <div class="friendsPageSection">
         <asp:Repeater runat="server" ID="repFriendsList">
             <ItemTemplate>
-					<asp:HyperLink runat="server" class="friendContainer" NavigateUrl='<%# Eval("AccountID","~/Profile.aspx?FriendID={0}") %>' >
+                    <asp:HyperLink runat="server" class="friendContainer" NavigateUrl='<%# Eval("AccountID","~/Profile.aspx?FriendID={0}") %>' >
                 <asp:Image runat="server" CssClass="imgFriendUserImage" id="imgButton" ImageUrl="~/Images/NoUserMainImageIcon.png"  />
                 <asp:Label runat="server" CssClass="lblFriendsUserName" ID="username" Text='<%# Bind("username") %>' />
                     </asp:HyperLink>
-			</ItemTemplate>
+            </ItemTemplate>
         </asp:Repeater>
     </div>
 </asp:Content>
+
