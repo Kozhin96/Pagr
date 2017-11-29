@@ -1,0 +1,241 @@
+﻿s<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PagrMasterPage.master.cs" Inherits="Pagr.PagrMasterPage" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="Styles/StyleSheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="topBannerSection">
+            <div class="divLogo">
+                <img class="LogoImage" src="Images/pagrLogo.png">
+            </div>
+            <asp:TextBox ID="tbSearchPagrPagers" CssClass="tbSearchPagrPagers" placeholder="Search for page" runat="server"></asp:TextBox>
+            <asp:ImageButton runat="server" CssClass="imgBtnSearchage" ImageUrl="~/Images/searchIcon.png" />
+            <div runat="server" id="divUserLoggedInContainer" class="divUserLoggedInContainer" visible="false">
+                <asp:Image ID="userImage" CssClass="userImageIcon" runat="server" />
+                <asp:Label runat="server" ID="lblUserName" CssClass="divUserName" />
+                <div class="dropdownList">
+                    <asp:LinkButton runat="server" CssClass="dropdownListItem" ID="lbtnLogOut" Text="Log Out" OnClick="OnClick_LotgOut" />
+                    <asp:LinkButton runat="server" CssClass="dropdownListItem" ID="lbtnAccountSettings" Text="Account Settings" />
+                </div>
+            </div>
+            <asp:LinkButton ID="lbSignIn" CssClass="lbSarchEvents" Text="Sign in" runat="server" OnClick="OnClick_SignIn" />
+            <asp:LinkButton ID="LbSignUp" CssClass="lbSarchEvents" Text="Sign up" runat="server"  OnClick="OnClick_OpenRegisterDialog" />
+        </div>
+			
+             <div class="TabsBar" id="TabsBar">
+                     <asp:Button ID="GIFSTabButton" runat="server" CssClass="Buttons" Text="GIFS" OnClick="GIFSTabButton_Click"/>         
+                     <asp:Button ID="VideosTabButton" runat="server" CssClass="Buttons" Text="Videos"  OnClick="VideosTabButton_Click"/> 
+                     <asp:Button ID="ImagesTabButton" runat="server" CssClass="Buttons" Text="Images"  OnClick="ImagesTabButton_Click"/>
+                     <asp:Button ID="LinksTabButton" runat="server" CssClass="Buttons" Text="Links"  OnClick="LinksTabButton_Click"/>
+                     <asp:Button ID="TextTabButton" runat="server" CssClass="Buttons" Text="Text"  OnClick="TextTabButton_Click"/>
+                     <asp:Button ID="WorkTabButton" runat="server" CssClass="Buttons" Text="Work Appropriate" OnClick="WorkTabButton_Click"/>
+                </div>
+
+			
+        <div id="sideExplorer" class="LeftMainExploreSection">
+            <div class="pageIcon">
+                 <img class="menuIcon" src="Images/menuIcon.png" onClick="closeNav()">
+                 <label class="pageLabels">Close</label>
+             </div>
+ 
+             <div class="explorerLine">
+                 <hr />
+                 <label class="sectionLabels">pagr picks</label>
+             </div>
+             
+             <div class="page1Icon">
+                <img class="hotIcon" src="Images/hotIcon.png" >
+                <label class="pageLabels">Hot!</label>
+             </div>
+             <div class="page2Icon">
+                 <img class="newIcon" src="Images/newIcon.png" >
+                 <label class="pageLabels">New!</label>
+             </div>
+             <div class="page3Icon">
+                 <img class="risingIcon" src="Images/risingIcon.png" >
+                 <label class="pageLabels">Rising</label>
+             </div>
+ 
+             <div class="explorerLine">
+                 <hr />
+                 <label class="sectionLabels">Interests</label>
+             </div>
+ 
+             <div id="interests" class="page4Icon">
+                 <img class="addIcon" src="Images/addIcon.png" onClick="createInterestItem()">
+                 <label class="pageLabels">Add Interests</label>
+             </div>
+ 
+             <div class="explorerLine">
+                 <hr />
+                 <label class="sectionLabels">Pages Followed</label>
+            </div>
+ 
+             <div id="profile" class="page5Icon">
+                <img class="addIcon" src="Images/addIcon.png" >
+                 <label class="pageLabels">Tech</label>
+             </div>
+ 
+             <!-- <footer id="friendsAndFollowers" class="friendsAndFollowers">
+                 <hr />
+                 <table>
+                     <tr>
+                         <th>Friends</th>
+                         <th>Followers</th>
+                     </tr>
+                     <tr>
+                         <th>284</th>
+                         <th>50</th>
+                     </tr>
+                 </table>
+             </footer> -->
+        </div>
+        <div class="blackOverflow" runat="server" visible="false" id="signUpAndRegisterDialog">
+            <div class="MasterLogInBox">
+                <div>
+                    <asp:LinkButton runat="server" Text="close" CssClass="closeBox" OnClick="OnClickClose_SignInDialogBox" />
+                </div>
+                <div class="divLogInText">
+                    <asp:Label runat="server" ID="LoginRegisterHeader" CssClass="divLbloginTXT" Text="Log In" />
+                </div>
+                <div runat="server" id="LogInPanel" class="divLogInPanel">
+                    <div class="divLogInText">
+                        <asp:TextBox CssClass="txtLogin" ID="txtUserOrEmail" runat="server" placeholder="Username/Email Address" />
+                        <asp:Label runat="server" ID="SignInUserOrEmailError" CssClass="lblError" Visible="false" />
+                    </div>
+                    <div class="divLogInText">
+                        <asp:TextBox CssClass="txtLogin" ID="txtPassword" runat="server" TextMode="Password" placeholder="Password" />
+                        <asp:Label runat="server" ID="signInPasswordError" CssClass="lblError" Visible="false" />
+                    </div>
+                    <div class="divLogInText">
+                        <asp:CheckBox ID="cbRememberME" CssClass="divCbRememberME CleardivCbRememberME" runat="server" Text="Remember Me" />
+                        <asp:LinkButton CssClass="divSignUpLink" runat="server" Text="Register Account" OnClick="OnClick_OpenRegisterDialog" />
+                    </div>
+                    <div class="divLogInText">
+                        <asp:Button ID="btnSignIn" CssClass="btnSignIn" Text="Log In" runat="server" OnClick="OnClick_SignUserIn" />
+                    </div>
+                </div>
+                <div runat="server" id="SignUpPanel" visible="false" class="divLogInPanel">
+                    <div class="divLogInText">
+                        <asp:TextBox CssClass="txtLogin" ID="txtUserName" runat="server" placeholder="Username" />
+                        <asp:Label runat="server" ID="userNameError" CssClass="lblError" Visible="false" />
+                    </div>
+                    <div class="divLogInText">
+                        <asp:TextBox CssClass="txtLogin" ID="txtEmailAddress" runat="server" placeholder="Email Address" />
+                        <asp:Label runat="server" ID="emailAddressError" CssClass="lblError" Visible="false" />
+                    </div>
+                    <div class="divLogInText">
+                        <asp:TextBox CssClass="txtLogin" ID="txtPasswordRegestration" TextMode="Password" runat="server" placeholder="Password" />
+                        <asp:Label runat="server" ID="userRegestrainPasswordError" CssClass="lblError" Visible="false" />
+                    </div>
+                    <div class="divLogInText">
+                        <asp:Button ID="btnSignUp" CssClass="btnSignIn" Text="Sign Up" runat="server" OnClick="OnClick_OpenSignUpSecondStage" />
+                    </div>
+                    <div class="divLogInText">
+                        <asp:LinkButton CssClass="divCbRememberME CleardivCbRememberME reLogIN" runat="server" Text="Log In" OnClick="OnClick_SignIn" />
+                    </div>
+                </div>
+                <div runat="server" id="CompleteSignUpPanel" visible="false" class="divLogInPanel">
+                    <div class="divLogInText">
+                        <asp:Label CssClass="LogInsubheader" runat="server" Text="What Intrests you?" />
+                        <asp:Label CssClass="LogInsubheader" runat="server" Text="Please choose minimum of 3 categories" />
+                    </div>
+                    <asp:CheckBoxList CssClass="divCbRememberME CleardivCbRememberME" ID="cblIntrests" runat="server">
+                        <asp:ListItem>Art</asp:ListItem>
+                        <asp:ListItem>Anime</asp:ListItem>
+                        <asp:ListItem>Food</asp:ListItem>
+                        <asp:ListItem>Videos</asp:ListItem>
+                        <asp:ListItem>News</asp:ListItem>
+                        <asp:ListItem>Science</asp:ListItem>
+                    </asp:CheckBoxList>
+                    <asp:Label runat="server" ID="checkBoxListError" CssClass="lblError" Visible="false" />
+                    <div class="divLogInText">
+                        <asp:LinkButton CssClass="divSignUpLink" runat="server" Text="Skip" OnClick="OnClick_SkipIntrests" />
+                        <asp:LinkButton CssClass="divSignUpLink" runat="server" Text="Complete" OnClick="OnClick_CompleteRegestration" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+
+    <script>
+        // Diana I have started the javascript but u need to do calculation on the screen size or something and from there change the width
+        document.getElementById("sideExplorer").addEventListener("transitionend", makeLabelsAppear);
+        var pageSection = document.getElementById('pageSection');     
+        var TabSection = document.getElementById('TabsBar');   
+        function closeNav() {
+            if (document.getElementById("sideExplorer").style.width == "60px") {
+                 if (pageSection != null)
+                 {
+                     document.getElementById("pageSection").style.marginLeft = "200px";
+                 }
+                 if (TabSection != null)
+                 {
+                     document.getElementById("TabsBar").style.marginLeft = "200px";
+                     document.getElementById("TabsBar").style.width = "100%";
+                 }
+                 document.getElementById("sideExplorer").style.width = "200px";
+                 
+            } else {
+                if (pageSection != null) {
+                    document.getElementById("pageSection").style.marginLeft = "60px";
+                }
+                if (TabSection != null) {
+                    document.getElementById("TabsBar").style.marginLeft = "60px";
+                    document.getElementById("TabsBar").style.width = "113%";
+                }
+                 document.getElementById("sideExplorer").style.width = "60px";
+                 makeLabelsDisappear();
+             }
+         }
+        
+ 
+         function makeLabelsAppear() {
+            if (document.getElementById("sideExplorer").style.width == "200px") {
+                 var labels = document.getElementsByClassName("pageLabels");
+                 var sectionLabels = document.getElementsByClassName("sectionLabels");
+ 
+                 for (var i = 0; i < labels.length; i++) {
+                     labels[i].style.display = 'initial';
+                 }
+                 for (var i = 0; i < sectionLabels.length; i++) {
+                     sectionLabels[i].style.display = 'initial';
+                 }
+             }
+         }
+ 
+         function makeLabelsDisappear() {
+             var pageLabels = document.getElementsByClassName("pageLabels");
+             var sectionLabels = document.getElementsByClassName("sectionLabels");
+ 
+             for (var i = 0; i < pageLabels.length; i++) {
+                 pageLabels[i].style.display = 'none';
+             }
+             for (var i = 0; i < sectionLabels.length; i++) {
+                 sectionLabels[i].style.display = 'none';
+             }
+         }
+ 
+         function createInterestItem() {
+             var img = new Image(40, 40); // width, height values are optional params 
+             img.src = 'Images/tempIcon.png';
+             img.style.clear = 'both';
+             img.style.float = 'left';
+             img.style.marginTop = '10px';
+             img.style.marginLeft = '10px';
+ 
+             document.getElementById("interests").appendChild(img);
+         }
+     </script>
+</body>
+</html>

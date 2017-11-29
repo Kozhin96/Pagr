@@ -1,0 +1,119 @@
+CREATE TABLE Accounts (
+    AccountID int NOT NULL AUTO_INCREMENT,
+    EmailAddress varchar(100) NOT NULL UNIQUE,
+    Username varchar(30) NOT NULL UNIQUE,
+    Password varchar(255) NOT NULL,
+    Age int(3) NOT NULL,
+    Bio varchar(250),
+    PRIMARY KEY (AccountID)
+);
+# Set starting number for AccountID
+ALTER TABLE Accounts AUTO_INCREMENT=1;
+
+
+CREATE TABLE AccountAvitars(
+    AccountID int,
+    #Store image in directory and reference to it.
+    AccountImage VARCHAR(2083),
+    PRIMARY KEY (AccountID),
+    FOREIGN KEY (AccountID) REFERENCES Accounts(AccountID)
+);
+CREATE TABLE Pages (
+    PageID int NOT NULL AUTO_INCREMENT,
+    PageName varchar(70) NOT NULL UNIQUE,
+    PageOwnerID int NOT NULL,
+    AgeRestriction int(2),
+    Disabled bit(1) NOT NULL,
+    PRIMARY KEY (PageID),
+    FOREIGN KEY (PageOwnerID) REFERENCES Accounts(AccountID)
+);
+# Set starting number for PageID
+ALTER TABLE Pages AUTO_INCREMENT=1;
+
+CREATE TABLE Posts (
+    PostID int NOT NULL AUTO_INCREMENT,
+    PostTitle varchar(70) NOT NULL,
+    PostBody varchar(250),
+    PostURL varchar(255),
+    PostOwnerID int NOT NULL,
+    PageID int, 
+    PostType varchar(15) NOT NULL,
+    Submitted DATETIME NOT NULL,
+    Disabled bit(1) NOT NULL,
+    UpVotes int,
+    DownVotes int,
+    PRIMARY KEY (PostID),
+    FOREIGN KEY (PostOwnerID) REFERENCES Accounts(AccountID),
+    FOREIGN KEY (PageID) REFERENCES Pages(PageID)
+);
+# Set starting number for PostID
+ALTER TABLE Posts AUTO_INCREMENT=1;
+
+CREATE TABLE Comments (
+    CommentID int NOT NULL AUTO_INCREMENT,
+    CommentOwnerID int NOT NULL,
+    Submitted DATETIME NOT NULL,
+    UpVotes int,
+    DownVotes int,
+    PostID int, 
+    ParentComment int,
+    CommentBody varchar(250) NOT NULL,
+    PRIMARY KEY (CommentID),
+    FOREIGN KEY (CommentOwnerID) REFERENCES Accounts(AccountID)
+);
+# Set starting number for FriendID
+ALTER TABLE Comments AUTO_INCREMENT=1;
+
+CREATE TABLE Friends (
+    FriendID int NOT NULL AUTO_INCREMENT,
+    User1 int,
+    User2 int,
+    DateAccepted DATETIME,
+    Disabled bit(1),
+    PRIMARY KEY (FriendID),
+    FOREIGN KEY (User1) REFERENCES Accounts(AccountID),
+    FOREIGN KEY (User2) REFERENCES Accounts(AccountID)
+);
+
+# Set starting number for FollowingPageID
+ALTER TABLE Friends AUTO_INCREMENT=1;
+
+CREATE TABLE FollowingPages(
+    FollowingPageID int NOT NULL AUTO_INCREMENT,
+    UserFollowing int,
+    PageID int,
+    PRIMARY KEY (FollowingPageID),
+    FOREIGN KEY (UserFollowing) REFERENCES Accounts(AccountID),
+    FOREIGN KEY (PageID) REFERENCES Pages(PageID)
+);
+# Set starting number for FollowingPageID
+ALTER TABLE FollowingPages AUTO_INCREMENT=1;
+
+#INSERT INTO ACCOUNTS
+
+INSERT INTO Accounts(EmailAddress, Username, Password, Age, Bio)
+VALUES ("user1@test.com", "user", "user", 18, "I am a 18 year old called User 1");
+
+INSERT INTO Accounts(EmailAddress, Username, Password, Age, Bio)
+VALUES ("user2@test.com", "user2", "user2", 15, "I am a 13 year old called User 2");
+
+INSERT INTO Accounts(EmailAddress, Username, Password, Age, Bio)
+VALUES ("user3@test.com", "user3", "user3", 20, "I am a 20 year old called User 3");
+
+INSERT INTO Accounts(EmailAddress, Username, Password, Age, Bio)
+VALUES ("user4@test.com", "user4", "user4", 13, "I am a 13 year old called User 4");
+
+#INSERT INTO POSTS
+
+INSERT INTO Posts(PostTitle, PostBody, PostOwnerID, PostType, Submitted, Disabled)
+VALUES("This is a title w/ a description", "Description of Title",1,"text",NOW(),0);
+
+INSERT INTO Posts(PostTitle, PostBody, PostOwnerID, PostType, Submitted, Disabled)
+VALUES("This is a title w/ a description", "Description of Title",2,"link",NOW(),0);
+
+INSERT INTO Posts(PostTitle, PostOwnerID, PostType, Submitted, Disabled)
+VALUES("This is a title without a description",3,"gif",NOW(),0);
+
+INSERT INTO Posts(PostTitle, PostOwnerID, PostType, Submitted, Disabled)
+VALUES("This is a title without a description",4,"image",NOW(),0);
+
